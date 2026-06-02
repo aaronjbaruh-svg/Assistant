@@ -1,0 +1,17 @@
+import os
+
+os.environ.setdefault("GHL_API_KEY", "test_ghl_key")
+os.environ.setdefault("GHL_LOCATION_ID", "test_location")
+os.environ.setdefault("GHL_PIPELINE_ID", "test_pipeline")
+os.environ.setdefault("GHL_STAGE_LEAD_IN", "stage_lead_in")
+os.environ.setdefault("GHL_STAGE_CONTACTED", "stage_contacted")
+os.environ.setdefault("GHL_STAGE_QUALIFIED_COACHING", "stage_coaching")
+os.environ.setdefault("GHL_STAGE_QUALIFIED_COMMUNITY", "stage_community")
+os.environ.setdefault("GHL_STAGE_UNRESPONSIVE", "stage_unresponsive")
+os.environ.setdefault("GHL_AARON_CONTACT_ID", "aaron_contact_123")
+os.environ.setdefault("GHL_FROM_EMAIL", "aaron@beyoulouder.com")
+os.environ.setdefault("ANTHROPIC_API_KEY", "test_anthropic_key")
+os.environ.setdefault("AARON_PHONE", "+19255251091")
+os.environ.setdefault("COMMUNITY_LINK", "https://community.example.com")
+os.environ.setdefault("DATABASE_URL", "sqlite:///./test_louie.db")
+os.environ.setdefault("JOBS_DATABASE_URL", "sqlite:///./test_jobs.db")

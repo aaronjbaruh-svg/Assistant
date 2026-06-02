@@ -10,3 +10,7 @@ __pycache__/
 venv/
 dist/
 build/
+louie.db
+jobs.db
+test_louie.db
+test_jobs.db
