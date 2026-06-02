@@ -2,6 +2,7 @@ import json
 import logging
 from dataclasses import dataclass
 import anthropic
+from app import messages
 
 logger = logging.getLogger(__name__)
 
@@ -62,5 +63,5 @@ class ClaudeClient:
             logger.error("Claude classification failed: %s — defaulting to Path C", exc)
             return ClassificationResult(
                 path="C",
-                reply="Thanks for getting back to me! Just to make sure I point you in the right direction — are you looking for something more hands-on like 1-on-1 coaching, or resources you can work through at your own pace?",
+                reply=messages.path_c_sms(),
             )
