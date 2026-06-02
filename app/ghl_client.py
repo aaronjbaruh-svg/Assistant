@@ -40,7 +40,6 @@ class GHLClient:
                 wait = 2 ** attempt
                 logger.warning("GHL POST %s attempt %d failed: %s. Retrying in %ds", path, attempt + 1, exc, wait)
                 time.sleep(wait)
-        return {}
 
     def _put(self, path: str, body: dict) -> dict:
         url = f"{GHL_BASE}{path}"
@@ -55,13 +54,20 @@ class GHLClient:
                 wait = 2 ** attempt
                 logger.warning("GHL PUT %s attempt %d failed: %s. Retrying in %ds", path, attempt + 1, exc, wait)
                 time.sleep(wait)
-        return {}
 
     def _get(self, path: str, params: dict = None) -> dict:
         url = f"{GHL_BASE}{path}"
-        resp = httpx.get(url, headers=self._headers(), params=params or {}, timeout=10)
-        resp.raise_for_status()
-        return resp.json()
+        for attempt in range(self.max_retries):
+            try:
+                resp = httpx.get(url, headers=self._headers(), params=params or {}, timeout=10)
+                resp.raise_for_status()
+                return resp.json()
+            except (httpx.HTTPError, httpx.HTTPStatusError) as exc:
+                if attempt == self.max_retries - 1:
+                    raise
+                wait = 2 ** attempt
+                logger.warning("GHL GET %s attempt %d failed: %s. Retrying in %ds", path, attempt + 1, exc, wait)
+                time.sleep(wait)
 
     def send_sms(self, contact_id: str, message: str) -> dict:
         return self._post("/conversations/messages", {
@@ -101,4 +107,4 @@ class GHLClient:
         try:
             self.send_sms(contact_id=self.aaron_contact_id, message=message)
         except Exception as exc:
-            logger.error("Failed to notify Aaron: %s", exc)
+            logger.error("Failed to notify Aaron: %s: %s", type(exc).__name__, exc)
